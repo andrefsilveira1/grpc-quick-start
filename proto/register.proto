@@ -1,0 +1,24 @@
+syntax = "proto3";
+package pb;
+option go_package = "internal/pb";
+
+message Register {
+    string id = 1;
+    string latitude = 2;
+    string longitude = 3;
+    string distance = 4;
+    bool closer = 5;
+}
+message CreateRequest {
+    string id = 1;
+    string latitude = 2;
+    string longidute = 3;
+}
+
+message Registers {
+    repeated Register regiters = 1;
+}
+
+service RegisterService {
+    rpc CreateRegisterStream(stream CreateRequest) returns (Registers) {}
+}
