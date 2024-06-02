@@ -10,9 +10,8 @@ message Register {
     bool closer = 5;
 }
 message CreateRequest {
-    string id = 1;
-    string latitude = 2;
-    string longidute = 3;
+    string latitude = 1;
+    string longitude = 2;
 }
 
 message Registers {
