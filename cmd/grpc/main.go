@@ -1,6 +1,8 @@
 package main
 
 import (
+	"andrefsilveira/grpc-quick-start/internal/pb"
+	"andrefsilveira/grpc-quick-start/service"
 	"fmt"
 	"net"
 
@@ -10,8 +12,9 @@ import (
 
 func main() {
 
+	registerService := service.NewRegisterService()
 	grpcServer := grpc.NewServer()
-	pb.RegisterCategoryServiceServer(grpcServer)
+	pb.RegisterRegisterServiceServer(grpcServer, registerService)
 	reflection.Register(grpcServer)
 
 	var port = ":50051"
