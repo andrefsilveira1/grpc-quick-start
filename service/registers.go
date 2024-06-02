@@ -65,3 +65,39 @@ func (c *RegisterService) CreateRegisterStream(stream pb.RegisterService_CreateR
 
 	}
 }
+func (c *RegisterService) CreateRegisterBidirectional(stream pb.RegisterService_CreateRegisterBidirectionalServer) error {
+	for {
+		register, err := stream.Recv()
+		if err == io.EOF {
+			return nil
+		}
+		if err != nil {
+			return err
+		}
+
+		lat, err := strconv.ParseFloat(register.Latitude, 64)
+		if err != nil {
+			return err
+		}
+
+		lon, err := strconv.ParseFloat(register.Longitude, 64)
+		if err != nil {
+			return err
+		}
+
+		result := haversine.Calculate(latitude, longitude, lat, lon)
+		value := strconv.FormatFloat(result, 'f', -1, 64)
+
+		err = stream.Send(&pb.Register{
+			Id:        uuid.New().String(),
+			Latitude:  register.Latitude,
+			Longitude: register.Longitude,
+			Distance:  value,
+			Closer:    false,
+		})
+
+		if err != nil {
+			return err
+		}
+	}
+}
