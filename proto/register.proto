@@ -21,4 +21,5 @@ message Registers {
 
 service RegisterService {
     rpc CreateRegisterStream(stream CreateRequest) returns (Registers) {}
+    rpc CreateRegisterBidirectional(stream CreateRequest) returns (stream Register) {}
 }
