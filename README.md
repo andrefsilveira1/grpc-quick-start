@@ -13,8 +13,11 @@
 
 - Execute: `go run cmd/grpc/main.go`
 - Then, start Evans: `docker run --rm --network host -it ghcr.io/ktr0731/evans --host localhost --port 50051 --reflection` 
-<!-- 
 
--5.895967931006811, 
 
--35.19803284081435 -->
+## TODO: 
+
+- [ ] - Refactor README.md and include all step by step
+- [ ] - Refactor registers, remove haversine structure from registers.go
+- [ ] - Add tests and errors validation
+- [ ] - Create an article at Dev.to or Medium
