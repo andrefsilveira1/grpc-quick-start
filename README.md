@@ -18,6 +18,6 @@
 ## TODO: 
 
 - [ ] - Refactor README.md and include all step by step
-- [ ] - Refactor registers, remove haversine structure from registers.go
+- [x] - Refactor registers, remove haversine structure from registers.go
 - [ ] - Add tests and errors validation
 - [ ] - Create an article at Dev.to or Medium
