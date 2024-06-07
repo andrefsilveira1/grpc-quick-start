@@ -23,8 +23,6 @@ var longitude = -35.19111877919574
 
 func (c *RegisterService) CreateRegister(ctx context.Context, in *pb.CreateRequest) (*pb.Register, error) {
 	register := &pb.Register{}
-	var checkpoint = 0.0
-	var closer = false
 
 	lat, err := strconv.ParseFloat(in.Latitude, 64)
 	if err != nil {
@@ -39,19 +37,11 @@ func (c *RegisterService) CreateRegister(ctx context.Context, in *pb.CreateReque
 	result := haversine.Calculate(latitude, longitude, lat, lon)
 	value := strconv.FormatFloat(result, 'f', -1, 64)
 
-	if result < checkpoint {
-		checkpoint = result
-		closer = true
-	} else {
-		closer = false
-	}
-
 	register = &pb.Register{
 		Id:        uuid.New().String(),
 		Latitude:  register.Latitude,
 		Longitude: register.Longitude,
 		Distance:  value,
-		Closer:    closer,
 	}
 
 	return register, nil
@@ -60,8 +50,6 @@ func (c *RegisterService) CreateRegister(ctx context.Context, in *pb.CreateReque
 
 func (c *RegisterService) CreateRegisterStream(stream pb.RegisterService_CreateRegisterStreamServer) error {
 	registers := &pb.Registers{}
-	var checkpoint = 0.0
-	var closer = false
 
 	for {
 		register, err := stream.Recv()
@@ -86,19 +74,11 @@ func (c *RegisterService) CreateRegisterStream(stream pb.RegisterService_CreateR
 		result := haversine.Calculate(latitude, longitude, lat, lon)
 		value := strconv.FormatFloat(result, 'f', -1, 64)
 
-		if result < checkpoint {
-			checkpoint = result
-			closer = true
-		} else {
-			closer = false
-		}
-
 		registers.Regiters = append(registers.Regiters, &pb.Register{
 			Id:        uuid.New().String(),
 			Latitude:  register.Latitude,
 			Longitude: register.Longitude,
 			Distance:  value,
-			Closer:    closer,
 		})
 
 	}
@@ -131,7 +111,6 @@ func (c *RegisterService) CreateRegisterBidirectional(stream pb.RegisterService_
 			Latitude:  register.Latitude,
 			Longitude: register.Longitude,
 			Distance:  value,
-			Closer:    false,
 		})
 
 		if err != nil {

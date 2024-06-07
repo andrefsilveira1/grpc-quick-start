@@ -7,8 +7,8 @@ message Register {
     string latitude = 2;
     string longitude = 3;
     string distance = 4;
-    bool closer = 5;
 }
+
 message CreateRequest {
     string latitude = 1;
     string longitude = 2;
