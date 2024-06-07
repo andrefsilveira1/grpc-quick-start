@@ -28,7 +28,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RegisterServiceClient interface {
-	CreateRegister(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Registers, error)
+	CreateRegister(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Register, error)
 	CreateRegisterStream(ctx context.Context, opts ...grpc.CallOption) (RegisterService_CreateRegisterStreamClient, error)
 	CreateRegisterBidirectional(ctx context.Context, opts ...grpc.CallOption) (RegisterService_CreateRegisterBidirectionalClient, error)
 }
@@ -41,8 +41,8 @@ func NewRegisterServiceClient(cc grpc.ClientConnInterface) RegisterServiceClient
 	return &registerServiceClient{cc}
 }
 
-func (c *registerServiceClient) CreateRegister(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Registers, error) {
-	out := new(Registers)
+func (c *registerServiceClient) CreateRegister(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Register, error) {
+	out := new(Register)
 	err := c.cc.Invoke(ctx, RegisterService_CreateRegister_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -119,7 +119,7 @@ func (x *registerServiceCreateRegisterBidirectionalClient) Recv() (*Register, er
 // All implementations must embed UnimplementedRegisterServiceServer
 // for forward compatibility
 type RegisterServiceServer interface {
-	CreateRegister(context.Context, *CreateRequest) (*Registers, error)
+	CreateRegister(context.Context, *CreateRequest) (*Register, error)
 	CreateRegisterStream(RegisterService_CreateRegisterStreamServer) error
 	CreateRegisterBidirectional(RegisterService_CreateRegisterBidirectionalServer) error
 	mustEmbedUnimplementedRegisterServiceServer()
@@ -129,7 +129,7 @@ type RegisterServiceServer interface {
 type UnimplementedRegisterServiceServer struct {
 }
 
-func (UnimplementedRegisterServiceServer) CreateRegister(context.Context, *CreateRequest) (*Registers, error) {
+func (UnimplementedRegisterServiceServer) CreateRegister(context.Context, *CreateRequest) (*Register, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateRegister not implemented")
 }
 func (UnimplementedRegisterServiceServer) CreateRegisterStream(RegisterService_CreateRegisterStreamServer) error {

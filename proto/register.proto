@@ -19,7 +19,7 @@ message Registers {
 }
 
 service RegisterService {
-    rpc CreateRegister(CreateRequest) returns (Registers){}
+    rpc CreateRegister(CreateRequest) returns (Register){}
     rpc CreateRegisterStream(stream CreateRequest) returns (Registers) {}
     rpc CreateRegisterBidirectional(stream CreateRequest) returns (stream Register) {}
 }
