@@ -8,6 +8,9 @@
 - Create main and start server 
 - Deal with requests 
 
+## protoc:
+
+- Run: `protoc --go_out=. --go-grpc_out=. proto/register.proto`
 
 ## How to run:
 

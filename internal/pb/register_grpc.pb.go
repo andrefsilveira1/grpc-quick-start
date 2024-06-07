@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
+	RegisterService_CreateRegister_FullMethodName              = "/pb.RegisterService/CreateRegister"
 	RegisterService_CreateRegisterStream_FullMethodName        = "/pb.RegisterService/CreateRegisterStream"
 	RegisterService_CreateRegisterBidirectional_FullMethodName = "/pb.RegisterService/CreateRegisterBidirectional"
 )
@@ -27,6 +28,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RegisterServiceClient interface {
+	CreateRegister(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Registers, error)
 	CreateRegisterStream(ctx context.Context, opts ...grpc.CallOption) (RegisterService_CreateRegisterStreamClient, error)
 	CreateRegisterBidirectional(ctx context.Context, opts ...grpc.CallOption) (RegisterService_CreateRegisterBidirectionalClient, error)
 }
@@ -37,6 +39,15 @@ type registerServiceClient struct {
 
 func NewRegisterServiceClient(cc grpc.ClientConnInterface) RegisterServiceClient {
 	return &registerServiceClient{cc}
+}
+
+func (c *registerServiceClient) CreateRegister(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Registers, error) {
+	out := new(Registers)
+	err := c.cc.Invoke(ctx, RegisterService_CreateRegister_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *registerServiceClient) CreateRegisterStream(ctx context.Context, opts ...grpc.CallOption) (RegisterService_CreateRegisterStreamClient, error) {
@@ -108,6 +119,7 @@ func (x *registerServiceCreateRegisterBidirectionalClient) Recv() (*Register, er
 // All implementations must embed UnimplementedRegisterServiceServer
 // for forward compatibility
 type RegisterServiceServer interface {
+	CreateRegister(context.Context, *CreateRequest) (*Registers, error)
 	CreateRegisterStream(RegisterService_CreateRegisterStreamServer) error
 	CreateRegisterBidirectional(RegisterService_CreateRegisterBidirectionalServer) error
 	mustEmbedUnimplementedRegisterServiceServer()
@@ -117,6 +129,9 @@ type RegisterServiceServer interface {
 type UnimplementedRegisterServiceServer struct {
 }
 
+func (UnimplementedRegisterServiceServer) CreateRegister(context.Context, *CreateRequest) (*Registers, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateRegister not implemented")
+}
 func (UnimplementedRegisterServiceServer) CreateRegisterStream(RegisterService_CreateRegisterStreamServer) error {
 	return status.Errorf(codes.Unimplemented, "method CreateRegisterStream not implemented")
 }
@@ -134,6 +149,24 @@ type UnsafeRegisterServiceServer interface {
 
 func RegisterRegisterServiceServer(s grpc.ServiceRegistrar, srv RegisterServiceServer) {
 	s.RegisterService(&RegisterService_ServiceDesc, srv)
+}
+
+func _RegisterService_CreateRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RegisterServiceServer).CreateRegister(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: RegisterService_CreateRegister_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RegisterServiceServer).CreateRegister(ctx, req.(*CreateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _RegisterService_CreateRegisterStream_Handler(srv interface{}, stream grpc.ServerStream) error {
@@ -194,7 +227,12 @@ func (x *registerServiceCreateRegisterBidirectionalServer) Recv() (*CreateReques
 var RegisterService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "pb.RegisterService",
 	HandlerType: (*RegisterServiceServer)(nil),
-	Methods:     []grpc.MethodDesc{},
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "CreateRegister",
+			Handler:    _RegisterService_CreateRegister_Handler,
+		},
+	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "CreateRegisterStream",
