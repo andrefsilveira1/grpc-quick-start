@@ -20,7 +20,7 @@
 
 ## TODO: 
 
-- [ ] - Refactor README.md and include all step by step
+- [x] - Refactor README.md and include all step by step
 - [x] - Refactor registers, remove haversine structure from registers.go
-- [ ] - Add tests and errors validation
-- [ ] - Create an article at Dev.to or Medium
+- [x] - Add tests and errors validation
+- [x] - Create an article at Dev.to or Medium
