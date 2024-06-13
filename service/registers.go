@@ -83,6 +83,7 @@ func (c *RegisterService) CreateRegisterStream(stream pb.RegisterService_CreateR
 
 	}
 }
+
 func (c *RegisterService) CreateRegisterBidirectional(stream pb.RegisterService_CreateRegisterBidirectionalServer) error {
 	for {
 		register, err := stream.Recv()

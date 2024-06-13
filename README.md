@@ -18,9 +18,7 @@
 - Then, start Evans: `docker run --rm --network host -it ghcr.io/ktr0731/evans --host localhost --port 50051 --reflection` 
 
 
-## TODO: 
+## Dev.to:
 
-- [x] - Refactor README.md and include all step by step
-- [x] - Refactor registers, remove haversine structure from registers.go
-- [x] - Add tests and errors validation
-- [x] - Create an article at Dev.to or Medium
+[Dev.to article](https://dev.to/andrefsilveira1/grpc-quick-start-coding-with-streams-and-bidirectional-streaming-4dkd)
+
