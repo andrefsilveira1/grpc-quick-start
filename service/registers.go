@@ -74,7 +74,7 @@ func (c *RegisterService) CreateRegisterStream(stream pb.RegisterService_CreateR
 		result := haversine.Calculate(latitude, longitude, lat, lon)
 		value := strconv.FormatFloat(result, 'f', -1, 64)
 
-		registers.Regiters = append(registers.Regiters, &pb.Register{
+		registers.Registers = append(registers.Registers, &pb.Register{
 			Id:        uuid.New().String(),
 			Latitude:  register.Latitude,
 			Longitude: register.Longitude,
